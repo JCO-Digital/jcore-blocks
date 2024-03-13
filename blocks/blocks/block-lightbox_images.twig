@@ -1,0 +1,121 @@
+{# fields is the acf fields variable #}
+{# and block is the block metadata like name and id #}
+<section id="block-{{ block.id }}" class="align{{ block.align }} block {{ block.className }}">
+    <div {% if fields.lightbox_gallery|length > 1 %}class="row px-3"{% endif %}>
+        {% for image in fields.lightbox_gallery %}
+            <div {% if fields.lightbox_gallery|length > 1 %}class="col-6 col-md-4 col-lg-3 pr-1 pl-0 pb-1"{% endif %}>
+                <div class="responsive-{% if fields.style == 'square' %}square{% else %}wide{% endif %}">
+                    {% include 'images/image.twig' with {image: image.image, index: loop.index, id: 'image-' ~ block.id, class: 'lightbox-image-' ~ block.id } %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="modal-{{ block.id }}" class="lightbox-modal">
+        <span id="close-{{ block.id }}" class="close cursor">&times;</span>
+        <div class="lightbox-modal-content">
+
+            {% for image in fields.lightbox_gallery %}
+                <div class="mySlides-{{ block.id }} mySlides">
+                    <div class="image-title">{{ image.image.title }}</div>
+                    <a href="{{ image.image.url }}" class="download-image"
+                       download>{{ __('Lataa kuva','jcore') }}</a>
+                    <div class="numbertext">{{ loop.index }} / {{ loop.length }}</div>
+                    {% include 'images/image.twig' with {image: image.image} %}
+                    <div class="caption-container">
+                        <p class="caption">{{ image.desc_info ? image.image.description : image.information }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% if fields.lightbox_gallery|length > 1 %}
+                <a id="prev-{{ block.id }}" class="prev">&#10094;</a>
+                <a id="next-{{ block.id }}" class="next">&#10095;</a>
+
+                <div class="row lightbox-thumbnails">
+                    {% for image in fields.lightbox_gallery %}
+                        <div class="col-4 col-md-3 col-lg-2 pb-3">
+                            {% include 'images/image.twig' with {image: image.image, index: loop.index, class: 'cursor demo-' ~ block.id } %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
+<script type="text/javascript">
+    <!--
+    // TODO Add keyboard functionality
+
+    const images{{ block.id }} = document.getElementsByClassName('lightbox-image-{{ block.id }}');
+
+    for (let i = 0; i < images{{ block.id }}.length; i++) {
+        images{{ block.id }}[i].addEventListener('click', function (event) {
+            let slideIndex = 1;
+            slideIndex = this.dataset.indexNumber;
+            document.getElementById("modal-{{ block.id }}").style.display = "block";
+
+            const closeLightBox = document.getElementById('close-{{ block.id }}')
+            closeLightBox.addEventListener('click', function (event) {
+                document.getElementById("modal-{{ block.id }}").style.display = "none";
+            });
+
+
+            showSlides(slideIndex);
+
+            const prev = document.getElementById('prev-{{ block.id }}');
+            if (prev != null) {
+                prev.addEventListener('click', function (event) {
+                    slideIndex--;
+                    showSlides(slideIndex);
+                });
+            }
+
+            const next = document.getElementById('next-{{ block.id }}');
+            if (next != null) {
+                next.addEventListener('click', function (event) {
+                    slideIndex++;
+                    showSlides(slideIndex);
+                });
+            }
+
+            const demo = document.getElementsByClassName('demo-{{ block.id }}');
+            for (let j = 0; j < demo.length; j++) {
+                demo[j].addEventListener('click', function (event) {
+                    slideIndex = this.dataset.indexNumber;
+                    showSlides(slideIndex);
+                });
+            }
+
+            function showSlides(n) {
+
+                let i;
+                const slides = document.getElementsByClassName("mySlides-{{ block.id }}");
+
+                if (n > slides.length) {
+                    slideIndex = 1
+                }
+
+                if (n < 1) {
+                    slideIndex = slides.length
+                }
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slides[slideIndex - 1].style.display = "block";
+
+                const dots = document.getElementsByClassName("demo-{{ block.id }}");
+                if (typeof dots !== 'undefined' && dots.length > 0) {
+                    for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                    }
+                    dots[slideIndex - 1].className += " active";
+                }
+            }
+        });
+    }
+    //-->
+</script>

@@ -1,0 +1,9 @@
+{# Block Post lifts in Grid #}
+
+<section id="block-{{ block.id }}" class="block {{ block.className }}  {% if fields.custom_columns  %} columns-{{fields.columns }}{% else %} columns-{{ customizer('article_highlight','columns') }} {% endif %}">
+    <div class="posts-highlight">
+        {% for post in query %}
+            {% include 'partials/tease.twig' %}
+        {% endfor %}
+    </div>
+</section>

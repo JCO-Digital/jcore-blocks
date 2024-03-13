@@ -1,0 +1,26 @@
+{# Block Post lifts #}
+{# Render block only if query has posts #}
+{% if query|length > 0 %}
+<section id="block-{{ block.id }}" class="block {{ block.className }} columns-{{ columns }}">
+
+        {# Optional Heading #}
+        {% if fields.show_heading %}
+        <h2 class="page-title mb-3 {{ fields.heading_align }}">{{ fields.heading }}</h2>
+        {% endif %}
+
+        {# Post lifts #}
+        <div class="posts-highlight">
+            {% for post in query %}
+                {% include ['partials/tease-'~post.post_type~'.twig', 'partials/tease.twig' ] %}
+            {% endfor %}
+        </div>
+
+        {# Optional button #}
+        {% if fields.show_button %}
+        <div class="row {{ fields.button_align }}">
+            <a class="btn mx-3 {{ fields.button_css_classes }}" target="{{ fields.button_link.target }}" href="{{ fields.button_link.url }}">{{ fields.button_link.title }}</a>
+        </div>
+        {% endif %}
+
+</section>
+{% endif %}

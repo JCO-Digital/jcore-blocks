@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 
-namespace Jcore\Template;
+namespace Jcore\Blocks;
 
 use Jcore\Ydin\BootstrapInterface;
 
@@ -21,7 +21,14 @@ class Bootstrap implements BootstrapInterface {
 	 * Bootstrap constructor.
 	 */
 	private function __construct() {
-		// TODO: Add stuff here to use
+		add_filter(
+			'timber/locations',
+			static function ( $locations ) {
+				$locations['__main__'][] = trailingslashit( __DIR__ ) . '../blocks';
+				return $locations;
+			}
+		);
+		Blocks::init();
 	}
 
 	/**

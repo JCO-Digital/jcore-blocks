@@ -1,0 +1,54 @@
+{# fields is the acf fields variable #}
+{# and block is the block metadata like name and id #}
+<div id="block-{{ block.id }}" class="block {{ block.className }}">
+    <div class="accordion" id="{{ block.id }}">
+        {% for group, posts in block_grouped %}
+            {% if group %}
+                <h2 id="{{ group }}">{{ group }}</h2>
+            {% endif %}
+            {% set group_id = block.id ~ '-' ~ loop.index %}
+            {% for card in posts %}
+                {% set hash = fn('md5', group_id)|slice(1,5) %}
+                <div class="card" x-data="{
+       init() {
+          if (window.location.hash === `#${this.cardId}`) {
+             this.$refs.card.click();
+           }
+        },
+        setHash(e) {
+            if (window.location.hash === `#${this.cardId}`) return;
+            window.history.pushState(null, null, `#${this.cardId}`);
+            setTimeout(function() {
+              this.$refs.heading.scrollIntoView(true);
+            }.bind(this), 300);
+        },
+        cardId: '{{ card.title|slugify }}-{{ hash }}'
+      }">
+                    <div x-ref="heading" class="card-header" id="{{ card.title|slugify }}-{{ hash }}">
+                        <button @click="setHash($event)" x-ref="card" class="btn btn-link collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapse-{{ group_id }}-{{ loop.index }}"
+                                aria-expanded="true"
+                                aria-controls="collapse-{{ group_id }}-{{ loop.index }}">
+                            <span>{{ card.title }}</span>
+                            <i class="fal fa-plus fa-lg"></i>
+                            <i class="fal fa-minus fa-lg"></i>
+                        </button>
+
+                    </div>
+                    <div id="collapse-{{ group_id }}-{{ loop.index }}" class="collapse"
+                         aria-labelledby="{{ card.title|slugify }}-{{ hash }}" data-bs-parent="#{{ block.id }}">
+                        <div class="card-body">
+                            {{ fn('wpautop', card.post_content) }}
+                            {% if block_link_to %}
+                                <a href="{{ card.link }}">
+                                    {{ __('Open in separate page','jcore') }}
+                                    <i class="fas fa-long-arrow-alt-right"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<section id="block-{{ block.id }}" class="block {{ block.className }}">
+    <div class="row">
+        {% for file in files %}
+            <div class="col-6 col-sm-4 col-md-3 mb-4">
+              <a href="{{ file.tiedosto.url }}" target="_blank" title="{{ file.tiedosto.title }}">
+                  {% include 'images/image.twig' with {image: file.thumbnail, class: 'cover-image'} %}
+              </a>
+            {# <p>{{ file.tiedosto.title }}</p> #}
+            </div>
+        {% endfor %}
+    </div>
+</section>

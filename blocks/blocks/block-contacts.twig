@@ -1,0 +1,30 @@
+<div id="block-{{ block.id }}" class="align{{ block.align }} block {{ block.className }}">
+    {% for contact in fields.contacts %}
+        <div class="contact-column">
+            <div class="img-container {% if contact.thumbnail is empty %}img-placeholder{% endif %}"
+                 {% if fields.tooltip %}
+                    {# Image container has Bootstrasp tooltip #}
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="{{ contact.text }}"
+                {% endif %}>
+                {% include 'images/image.twig' with {image: contact.thumbnail, size: 'half'} %}
+                {% if fields.tooltip == false %}
+                    {# No overlay if tooltip on #}
+                    <div class="overlay">
+                        <p>{{ contact.text }}</p>
+                    </div>
+                {% endif %}
+            </div>
+            {% if contact.name %}<h3>{{ contact.title }}</h3>{% endif %}
+            {% if contact.jobtitle %}<p class="contact-jobtitle">{{ contact.jobtitle }}</p>{% endif %}
+            {% if contact.phone %}<p class="contact-phone">{{ contact.phone }}</p>{% endif %}
+            {% if contact.email %}
+                <p class="contact-email">
+                    <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                </p>
+            {% endif %}
+            {% if contact.text %}<p class="contact-text">{{ contact.text }}</p>{% endif %}
+        </div>
+    {% endfor %}
+</div>

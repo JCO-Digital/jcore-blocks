@@ -1,0 +1,50 @@
+{# fields is the acf fields variable #}
+{# and block is the block metadata like name and id #}
+<section id="block-{{ block.id }}" class="block {{ block.className }}">
+  <div class="row">
+    <div class="accordion" id="accordion">
+      {% set collapse = 1 %}
+      {% for group in fields.tuoteryhma %}
+        <h2 class="accordion-group-title">{{ group.ryhman_nimi }}</h2>
+        {% for card in group.tuotteet %}
+          <div class="card" x-data="{
+        init() {
+          if (window.location.hash === `#${this.cardId}`) {
+            this.$refs.card.click();
+          }
+        },
+        setHash(e) {
+            if (window.location.hash === `#${this.cardId}`) return;
+            window.history.pushState(null, null, `#${this.cardId}`);
+            setTimeout(function() {
+                this.$refs.heading.scrollIntoView(true);
+            }.bind(this), 300);
+        },
+        cardId: '{{ card.tuotteen_nimi|slugify }}-{{ collapse }}'
+      }">
+            <div class="card-header" id="{{ card.tuotteen_nimi|slugify }}-{{ collapse }}">
+              <h3 x-ref="heading" class="mb-0">
+                <button @click="setHash($event)" x-ref="card" class="btn btn-link collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapse-{{ collapse }}"
+                        aria-expanded="true" aria-controls="collapse-{{ collapse }}">
+                  <span>{{ card.tuotteen_nimi }}</span>
+                  <i class="fa-regular fa-plus fa-lg"></i>
+                  <i class="fa-regular fa-minus fa-lg"></i>
+                </button>
+              </h3>
+            </div>
+
+            <div id="collapse-{{ collapse }}" class="collapse" aria-labelledby="{{ card.tuotteen_nimi|slugify }}-{{ collapse }}"
+                 data-bs-parent="#accordion">
+              <div class="card-body">
+                {{ card.tuotteen_teksti }}
+              </div>
+            </div>
+          </div>
+          {% set collapse = collapse + 1 %}
+        {% endfor %}
+
+      {% endfor %}
+    </div>
+  </div>
+</section>

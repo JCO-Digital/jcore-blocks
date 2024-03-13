@@ -1,11 +1,11 @@
 {
-    "name": "jcore/template",
-    "description": "JCORE Module Template repository",
+    "name": "jcore/blocks",
+    "description": "JCORE ACF + Timber blocks module",
     "type": "library",
     "license": "GPL-2.0-only",
     "autoload": {
         "psr-4": {
-            "Jcore\\Template\\": "classes/"
+            "Jcore\\Blocks\\": "classes/"
         }
     },
     "authors": [

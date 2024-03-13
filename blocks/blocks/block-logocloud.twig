@@ -1,0 +1,77 @@
+<section id="block-{{ block.id }}" class="align{{ block.align }} block {{ block.className }}">
+    {% if fields.carousel %}
+        <div class="logo-carousel">
+            <!-- Carousel -->
+            <div class="swiper-container posts-swiper" id="slider-{{ block.id }}">
+                <div class="swiper-wrapper">
+                    {% for partner in fields.logocloud %}
+                        <div class="swiper-slide posts">
+                            <a href="{{ partner.link }}">
+                                <div class="responsive-wide">
+                                    {% include 'images/image.twig' with {image: partner.partner_logo} %}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Arrows -->
+            <div class="swiper-button-prev posts-button-prev-{{ block.id }}">
+            </div>
+            <div class="swiper-button-next posts-button-next-{{ block.id }}">
+            </div>
+                <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+      
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const swiper = new Swiper('#slider-{{ block.id }}', {
+                autoplay: {
+                    delay: 200000,
+                },
+                speed: 1000,
+                // centeredSlides: true,
+                keyboard: {
+                    enabled: true,
+                },
+                grabCursor: true,
+                loop: true,
+                slidesPerView: 2,
+                spaceBetween: 0,
+                pagination: {                      
+                el: '.swiper-pagination',
+                },
+                navigation: {
+                    nextEl: '.posts-button-next-{{ block.id }}',
+                    prevEl: '.posts-button-prev-{{ block.id }}',
+                },
+                breakpoints: {
+                    576: {
+                        slidesPerView: 3,
+                        spaceBetween: 0,
+                    },
+                    768: {
+                        slidesPerView: 4,
+                        spaceBetween: 0,
+                    },
+                    992: {
+                        slidesPerView: 5,
+                        spaceBetween: 0,
+                    },
+                }
+            });
+        })
+        </script>
+    {% else %}
+        <div class="logo-grid">
+            {% for partner in fields.logocloud %}
+            <div class="jcore-logo {{fields.choice}}">
+                <a href="{{ partner.link }}">
+                        {% include 'images/image.twig' with {image: partner.partner_logo} %}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    </section>

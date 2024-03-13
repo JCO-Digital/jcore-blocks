@@ -1,0 +1,57 @@
+{# fields is the acf fields variable #}
+{# and block is the block metadata like name and id #}
+<section id="block-{{ block.id }}" class="align{{ block.align}} block {{ block.className }}">
+    <div class="posts-swiper-wrapper">
+        <div class="swiper-container posts-swiper" id="slider-{{ block.id }}">
+            <div class="swiper-wrapper">
+                {% for post in block_posts %}
+                    <div class="swiper-slide posts">
+                        <a href="{{ post.link }}">
+                            <div class="responsive-wide">
+                                {% include 'images/image.twig' with {image: post.thumbnail} %}
+                            </div>
+                            <p>{{ post.title }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next posts-button-next-{{ block.id }}"></div>
+        <div class="swiper-button-prev posts-button-prev-{{ block.id }}"></div>
+    </div>
+    <script>
+        var swiper = new Swiper('#slider-{{ block.id }}', {
+            autoplay: {
+                delay: 5000,
+            },
+            speed: 1000,
+            centeredSlides: true,
+            keyboard: {
+                enabled: true,
+            },
+            grabCursor: true,
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: '.posts-button-next-{{ block.id }}',
+                prevEl: '.posts-button-prev-{{ block.id }}',
+            },
+            breakpoints: {
+                576: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                },
+                992: {
+                    slidesPerView: 4,
+                    spaceBetween: 50,
+                },
+            }
+        });
+    </script>
+</section>

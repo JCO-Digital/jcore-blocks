@@ -1,0 +1,10 @@
+<section id="block-{{ block.id }}" class="is-cover align{{ block.align }} {{ block.className }}">
+    {% if not is_preview %}
+        <div class="video-container" style="background-image: url({{ fields.cover_image.src('large') }})">
+            <iframe frameborder="0" height="100%" width="100%" src="{{ fields.url }}" allowfullscreen="" class="d-none d-lg-block"></iframe>
+        </div>
+    {% endif %}
+    <div class="overlay content-container has-{{ fields.overlay_color }}-overlay-color has-{{ fields.text_color }}-color" {% if fields.overlay_height and not is_preview %}style="min-height: {{ fields.overlay_height }}"{% endif %}>
+        <InnerBlocks />
+    </div>
+</section>

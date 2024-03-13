@@ -1,0 +1,17 @@
+<section id="block-{{ block.id }}" class="is-cover align{{ block.align }} has-{{ fields.parts|length }}-items {{ block.className }}">
+    {% for part in fields.parts %}
+        <div class="part" {% if part.background_image %} style="background-image: url({{ Image(part.background_image).src('large') }})"{% endif %}>
+            <div class="overlay has-{{ part.overlay_color }}-overlay-color">
+            {% for item in part.content %}
+                {% if item.acf_fc_layout == 'heading' %}
+                    <h2>{{ item.text }}</h2>
+                {% elseif item.acf_fc_layout == 'text' %}
+                    <p>{{ item.text }}</p>
+                {% elseif item.acf_fc_layout == 'button' %}
+                    <a href="{{ item.link.url }}" class="btn" target="{{ item.link.target }}">{{ item.link.title }}</a>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</section>

@@ -1,0 +1,15 @@
+{% if block.align == 'center' %}
+    {% set align = 'text-center' %}
+{% elseif block.align == 'left' %}
+    {% set align = 'text-start' %}
+{% elseif block.align == 'right' %}
+    {% set align = 'text-end' %}
+{% else %}
+    {% set align = 'text-center' %}
+{% endif %}
+
+<section id="block-{{ block.id }}" class="{{ align }} block {{ block.className }}">
+    {% if product %}
+        {% include 'woo/loop/add_to_cart.twig' %}
+    {% endif %}
+</section>
