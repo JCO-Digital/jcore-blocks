@@ -4,7 +4,10 @@ namespace Jcore\Blocks;
 
 use Jcore\Ydin\BootstrapInterface;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$autoloader = __DIR__ . '/../vendor/autoload.php';
+if ( file_exists( $autoloader ) ) {
+	require_once $autoloader;
+}
 
 /**
  * The bootstrap class, should be used by all dependencies.
