@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/JCO-Digital/jcore-blocks/compare/v0.2.1...v0.2.2) (2025-02-06)
+
+
+### Bug Fixes
+
+* create empty array instead of using raw get_fields() value ([eb46434](https://github.com/JCO-Digital/jcore-blocks/commit/eb46434a8e21b54bdc0d82df065e665ebf232ca2))
+
+
+
 ## [0.2.1](https://github.com/JCO-Digital/jcore-blocks/compare/v0.2.0...v0.2.1) (2024-09-23)
 
 
